@@ -1,0 +1,7 @@
+Flask==1.1.2
+PyAudio==0.2.14
+pydub==0.25.1
+Requests==2.32.4
+webrtcvad==2.0.10
+websocket-client==1.9.0
+openai==2.14.0
