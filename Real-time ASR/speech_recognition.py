@@ -19,9 +19,10 @@ def recognize_audio_file(audio_path, engine_type="16k_zh"):
     Returns:
         dict: 包含识别结果和状态信息的字典
     """
-    APPID = "1301020683"
-    SECRET_ID = "AKIDMabQ1OYUDiCXigU7WgeYFixeAXgbJp8C"
-    SECRET_KEY = "tY1HJ9oGcjcHhwzoPuCF5g5II3bv3zlO"
+    from api_config import TENCENT_ASR_APPID, TENCENT_ASR_SECRET_ID, TENCENT_ASR_SECRET_KEY
+    APPID = TENCENT_ASR_APPID
+    SECRET_ID = TENCENT_ASR_SECRET_ID
+    SECRET_KEY = TENCENT_ASR_SECRET_KEY
 
 
     try:

@@ -9,6 +9,7 @@ from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentClo
 from tencentcloud.common.profile.client_profile import ClientProfile
 from tencentcloud.common.profile.http_profile import HttpProfile
 from tencentcloud.asr.v20190614 import asr_client, models
+from api_config import TENCENT_VOICEPRINT_SECRET_ID, TENCENT_VOICEPRINT_SECRET_KEY, TENCENT_VOICEPRINT_REGION
 
 
 class TencentVoicePrintClient:
@@ -17,17 +18,17 @@ class TencentVoicePrintClient:
     包含：注册、认证、更新、删除、比对、统计、1:N验证 所有接口
     """
 
-    def __init__(self, secret_id: str, secret_key: str, region: str = "ap-guangzhou", save_path: str = "speaker_info.json"):
+    def __init__(self, secret_id: Optional[str] = None, secret_key: Optional[str] = None, region: Optional[str] = None, save_path: str = "speaker_info.json"):
         """
         初始化客户端
-        :param secret_id: 腾讯云SecretId
-        :param secret_key: 腾讯云SecretKey
-        :param region: 地域（默认ap-guangzhou）
+        :param secret_id: 腾讯云SecretId，若未提供则从配置文件读取
+        :param secret_key: 腾讯云SecretKey，若未提供则从配置文件读取
+        :param region: 地域，若未提供则从配置文件读取
         :param save_path: 说话人信息本地保存路径
         """
-        self.secret_id = secret_id
-        self.secret_key = secret_key
-        self.region = region
+        self.secret_id = secret_id or TENCENT_VOICEPRINT_SECRET_ID
+        self.secret_key = secret_key or TENCENT_VOICEPRINT_SECRET_KEY
+        self.region = region or TENCENT_VOICEPRINT_REGION
         self.save_path = save_path
         self.client = self._init_client()
 

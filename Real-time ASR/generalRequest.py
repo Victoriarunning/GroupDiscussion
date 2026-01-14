@@ -305,9 +305,10 @@ def req_url(api_name, APPId, APIKey, APISecret, file_path=None):
 """
 
 if __name__ == '__main__':
-    APPId = "a69d6c98"
-    APISecret = "MzNhZWY0YTM0MzBkOWU4MDY5ZTVkMzNl"
-    APIKey = "542ef30748a29afb6837bab801610898"
+    from api_config import XUNFEI_VOICEPRINT_APPID, XUNFEI_VOICEPRINT_API_KEY, XUNFEI_VOICEPRINT_API_SECRET
+    APPId = XUNFEI_VOICEPRINT_APPID
+    APISecret = XUNFEI_VOICEPRINT_API_SECRET
+    APIKey = XUNFEI_VOICEPRINT_API_KEY
     file_path = '示例音频/讯飞开放平台.mp3'
     # apiname取值:
     # 1.创建声纹特征库 createGroup

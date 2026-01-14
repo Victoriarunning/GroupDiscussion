@@ -3,3 +3,5 @@ Real-time ASR/Recording/*
 Real-time ASR/segment_recording/*
 
 .idea/*
+# 配置文件包含敏感信息，不应提交到版本控制
+Real-time ASR/api_config.py

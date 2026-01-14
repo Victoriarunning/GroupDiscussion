@@ -1,71 +1,29 @@
-import json
-import requests
 import re
 from statement_keeper import add_statement
+from qwenAPI import QwenAPI
 
 
-# 请替换XXXXXXXXXX为您的 APIpassword, 获取地址：https://console.xfyun.cn/services/bmx1
-api_key = "Bearer NuqmRGnwRBMkczjEXONU:bjlQwhExwkweugMUgZCy"
-url = "https://spark-api-open.xf-yun.com/v2/chat/completions"
+# 初始化Qwen API客户端
+qwen_client = QwenAPI(model="qwen-max")
 
 
 # 请求模型，并将结果输出
-def get_answer(message):
-    # 初始化请求体
-    headers = {
-        'Authorization': api_key,
-        'content-type': "application/json"
-    }
-    body = {
-        "model": "x1",
-        "user": "user_id",
-        "messages": message,
-        # 下面是可选参数
-        "stream": False,
-        "tools": [
-            {
-                "type": "web_search",
-                "web_search": {
-                    "enable": True,
-                    "search_mode": "deep"
-                }
-            }
-        ]
-    }
-    response = requests.post(url=url, json=body, headers=headers, stream=True)
-    data = response.json()
-    if data['code'] == 0:
-        text = data['choices'][0]['message']['content']
+def get_answer(user_input):
+    """
+    使用Qwen大模型获取回答
+
+    Args:
+        user_input (str): 用户输入的问题或对话内容
+
+    Returns:
+        str: 模型生成的回答
+    """
+    try:
+        text = qwen_client.ask(user_input)
         print(text)
-    else:
-        raise Exception("Interaction recognition failed")
-    return text
-
-
-# 管理对话历史，按序编为列表
-def getText(text, role, content):
-    jsoncon = {}
-    jsoncon["role"] = role
-    jsoncon["content"] = content
-    text.append(jsoncon)
-    return text
-
-
-# 获取对话中的所有角色的content长度
-def getlength(text):
-    length = 0
-    for content in text:
-        temp = content["content"]
-        leng = len(temp)
-        length += leng
-    return length
-
-
-# 判断长度是否超长，当前限制8K tokens
-def checklen(text):
-    while getlength(text) > 11000:
-        del text[0]
-    return text
+        return text
+    except Exception as e:
+        raise Exception(f"Interaction recognition failed: {e}")
 
 
 def parse_reply_objects(text):
@@ -112,9 +70,8 @@ def get_prompt_word():
 def interaction_recognition(formatted_text, raw_statement):
     complete_statement = formatted_text + "\n" + get_prompt_word()
     new_statement = complete_statement.replace('&', ':')
-    questions = checklen(getText([], "user", new_statement))
     # 开始输出模型内容
-    text = get_answer(questions)
+    text = get_answer(new_statement)
     print(text)
     reply_objects = parse_reply_objects(text)
     for i, (raw_text, reply_obj) in enumerate(zip(raw_statement, reply_objects)):
@@ -124,9 +81,6 @@ def interaction_recognition(formatted_text, raw_statement):
 
 # 主程序入口
 if __name__ == '__main__':
-    # 对话历史存储列表
-    chatHistory = []
-
     Input = "" \
             "1、崔童：对，我们开始吧，拆这笔有的第一个讨论数据类型。\
             2、崔童：我们已经开始了，可以开始直接开始了。\
@@ -146,9 +100,7 @@ if __name__ == '__main__':
             2、回复对象：\
             。。。\
             注意：回复对象只有具体某一个人和无两种可能，不需要给出理由和解析"
-    question = checklen(getText(chatHistory, "user", Input))
     # 开始输出模型内容
-    answer = get_answer(question)
+    answer = get_answer(Input)
     reply_object = parse_reply_objects(answer)
     print(reply_object)
-    # getText(chatHistory, "assistant", get_answer(question))

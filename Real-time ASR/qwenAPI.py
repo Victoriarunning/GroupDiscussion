@@ -2,6 +2,7 @@ import os
 from typing import Optional, List, Dict, Any
 import dashscope
 from dashscope import Generation
+from api_config import DASHSCOPE_API_KEY
 
 class QwenAPI:
     """
@@ -21,7 +22,7 @@ class QwenAPI:
         初始化 Qwen API 客户端。
 
         :param model: 使用的 Qwen 模型名称，如 'qwen-max', 'qwen-plus', 'qwen-turbo' 等。
-        :param api_key: DashScope API Key。若未提供，则从环境变量 DASHSCOPE_API_KEY 读取。
+        :param api_key: DashScope API Key。若未提供，则从配置文件读取。
         :param temperature: 生成文本的随机性（0～1），值越大越随机。
         :param top_p: 核采样参数，控制生成多样性。
         :param max_tokens: 最大生成 token 数。
@@ -35,9 +36,9 @@ class QwenAPI:
         if api_key:
             dashscope.api_key = api_key
         else:
-            dashscope.api_key = os.getenv("DASHSCOPE_API_KEY")
+            dashscope.api_key = DASHSCOPE_API_KEY
             if not dashscope.api_key:
-                raise ValueError("未提供 API Key，请通过参数或环境变量 DASHSCOPE_API_KEY 设置。")
+                raise ValueError("未提供 API Key，请在 config.py 中配置 DASHSCOPE_API_KEY。")
 
     def ask(self, user_input: str, system_prompt: Optional[str] = None) -> str:
         """
