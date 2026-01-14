@@ -102,7 +102,7 @@ def speech_recognition(file_path):
 # 使用示例
 if __name__ == "__main__":
     # 配置信息
-    AUDIO_FILE = "segment_recording/20250528_011458_segment_1.wav"
+    AUDIO_FILE = "output/segment_recording/20250528_011458_segment_1.wav"
 
     # 调用函数进行识别
     result = recognize_audio_file(AUDIO_FILE)

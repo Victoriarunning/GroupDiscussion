@@ -22,8 +22,8 @@ def clear_folder(folder_path):
 
 
 if __name__ == '__main__':
-    clear_folder('./Recording')
-    clear_folder('./segment_recording')
+    clear_folder('output/Recording')
+    clear_folder('output/segment_recording')
     recorder = real_time_recording.AudioRecorder()
     try:
         recorder.start_recording()

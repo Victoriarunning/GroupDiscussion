@@ -1,7 +1,7 @@
 *_pycache_*
-Real-time ASR/Recording/*
-Real-time ASR/segment_recording/*
+Real-time ASR/output/Recording/*
+Real-time ASR/output/segment_recording/*
 
 .idea/*
-# 配置文件包含敏感信息，不应提交到版本控制
-Real-time ASR/api_config.py
+
+Real-time ASR/config/api_config.py

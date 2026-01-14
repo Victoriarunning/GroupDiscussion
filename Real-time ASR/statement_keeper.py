@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, time
 import os
 from pathlib import Path
 
-LOG_BASE_DIR = "Statements"
+LOG_BASE_DIR = "output/Statements"
 
 
 def ensure_dir(date: datetime):

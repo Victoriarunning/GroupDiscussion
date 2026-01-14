@@ -67,7 +67,7 @@ class AudioRecorder:
         wf.writeframes(b''.join(self.frames))
         wf.close()
         print(f"Recorder is saving recording to {filename}")
-        segment_process(filepath, "segment_recording", times)
+        segment_process(filepath, "output/segment_recording", times)
 
 
 if __name__ == "__main__":
