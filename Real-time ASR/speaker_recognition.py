@@ -9,7 +9,7 @@ from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentClo
 from tencentcloud.common.profile.client_profile import ClientProfile
 from tencentcloud.common.profile.http_profile import HttpProfile
 from tencentcloud.asr.v20190614 import asr_client, models
-from api_config import TENCENT_VOICEPRINT_SECRET_ID, TENCENT_VOICEPRINT_SECRET_KEY, TENCENT_VOICEPRINT_REGION
+from config.api_config import TENCENT_VOICEPRINT_SECRET_ID, TENCENT_VOICEPRINT_SECRET_KEY, TENCENT_VOICEPRINT_REGION
 
 
 class TencentVoicePrintClient:

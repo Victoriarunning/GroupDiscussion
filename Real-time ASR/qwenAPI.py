@@ -2,7 +2,7 @@ import os
 from typing import Optional, List, Dict, Any
 import dashscope
 from dashscope import Generation
-from api_config import DASHSCOPE_API_KEY
+from config.api_config import DASHSCOPE_API_KEY
 
 class QwenAPI:
     """
