@@ -1,3 +1,5 @@
 *_pycache_*
 Real-time ASR/Recording/*
 Real-time ASR/segment_recording/*
+
+.idea/*

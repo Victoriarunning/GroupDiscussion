@@ -8,8 +8,17 @@ import wave
 from datetime import datetime
 import threading
 from speech_recognition import speech_recognition
-from speaker_recognition import req_url
 from statement_manager import statement_manager
+from speaker_recognition import TencentVoicePrintClient
+
+# 初始化腾讯云说话人识别客户端
+# 请替换为您的腾讯云SecretId和SecretKey
+tencent_client = TencentVoicePrintClient(
+    secret_id="",  # 请替换为实际的SecretId
+    secret_key="",  # 请替换为实际的SecretKey
+    region="ap-guangzhou",
+    save_path="speaker_info.json"
+)
 
 
 def recognition(file_path, times):
@@ -17,9 +26,34 @@ def recognition(file_path, times):
     if text == '':
         print('there is no voice')
         return
-    speaker, score = req_url('search feature', group_id='home', file_path=file_path)
-    print('====*Recognition*====', times, ':', speaker, ':', text)
-    statement_manager.add_statements(times + '&' + speaker + '&' + text)
+    
+    # 使用腾讯云说话人识别API
+    try:
+        result = tencent_client.group_verify_speaker(
+            audio_path=file_path,
+            group_id='test_group',
+            top_n=1,
+            voice_format=1,  # WAV格式
+            sample_rate=16000
+        )
+        
+        # 获取识别结果
+        if result['verify_tops'] and len(result['verify_tops']) > 0:
+            speaker = result['verify_tops'][0]['speaker_nick']
+            score = result['verify_tops'][0]['score']
+        else:
+            speaker = 'Unknown'
+            score = 0
+            print('未识别到说话人')
+        
+        print('====*Recognition*====', times, ':', speaker, ':', text)
+        statement_manager.add_statements(times + '&' + speaker + '&' + text)
+    except Exception as e:
+        print(f'说话人识别失败: {e}')
+        # 识别失败时使用默认说话人
+        speaker = 'Unknown'
+        print('====*Recognition*====', times, ':', speaker, ':', text)
+        statement_manager.add_statements(times + '&' + speaker + '&' + text)
 
 
 
