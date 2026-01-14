@@ -59,7 +59,7 @@ class AudioRecorder:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         times = datetime.now().strftime("%H:%M:%S")
         filename = f"recording_{timestamp}.wav"
-        filepath = f"Recording/" + filename
+        filepath = f"output/Recording/" + filename
         wf = wave.open(filepath, 'wb')
         wf.setnchannels(self.CHANNELS)
         wf.setsampwidth(self.audio.get_sample_size(self.FORMAT))
